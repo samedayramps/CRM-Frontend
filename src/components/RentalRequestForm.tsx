@@ -1,6 +1,6 @@
+// src/components/RentalRequestForm.tsx
+
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { createCustomer, createJob } from '../services/api';
-import { Job } from '../types/job';
 import { loadGoogleMapsAPI } from '../utils/googleMapsLoader';
 
 interface FormData {
@@ -126,55 +126,34 @@ const RentalRequestForm: React.FC = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        // Create customer
-        const customer = await createCustomer({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phone: formData.phone,
+        const response = await fetch('https://your-api-endpoint.com/api/rental-requests', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
         });
 
-        // Create job
-        const jobData: Job = {
-          customer: customer._id,
-          installAddress: formData.installAddress,
-          notes: `
-            Estimated Ramp Length: ${formData.estimatedRampLength}
-            Rental Duration: ${formData.knowRentalDuration === 'yes' ? formData.rentalDuration + ' months' : 'Unknown'}
-            Installation Timeframe: ${formData.installationTimeframe}
-            Mobility Aids: ${formData.mobilityAids.join(', ')}
-          `,
-          status: 'New',
-          totalCost: 0,
-          deliveryFee: 0,
-          installFee: 0,
-          rentalRate: 0,
-          overridePricing: false,
-          scheduledDate: new Date(),
-          components: [],
-          totalRampLength: parseInt(formData.estimatedRampLength) || 0,
-          totalLandings: 0,
-          distanceFromWarehouse: 0,
-        };
-
-        await createJob(jobData);
-
-        // Reset form and show success message
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          knowRampLength: 'no',
-          estimatedRampLength: '',
-          knowRentalDuration: 'no',
-          rentalDuration: '',
-          installationTimeframe: '',
-          mobilityAids: [],
-          installAddress: '',
-        });
-        setPage(1);
-        alert('Your rental request has been submitted successfully!');
+        if (response.ok) {
+          // Reset form and show success message
+          setFormData({
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            knowRampLength: 'no',
+            estimatedRampLength: '',
+            knowRentalDuration: 'no',
+            rentalDuration: '',
+            installationTimeframe: '',
+            mobilityAids: [],
+            installAddress: '',
+          });
+          setPage(1);
+          alert('Your rental request has been submitted successfully!');
+        } else {
+          throw new Error('Failed to submit request');
+        }
       } catch (error) {
         console.error('Error submitting form:', error);
         alert('There was an error submitting your request. Please try again.');
@@ -196,6 +175,7 @@ const RentalRequestForm: React.FC = () => {
     const formattedPhoneNumber = formatPhoneNumber(e.target.value);
     setFormData(prev => ({ ...prev, phone: formattedPhoneNumber }));
   };
+
   return (
     <div className="max-w-md mx-auto mt-10">
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">

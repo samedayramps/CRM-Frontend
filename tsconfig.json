@@ -17,14 +17,13 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "types": ["google.maps"]
-
-    }
+    },
+    "outDir": "./dist"
   },
   "include": ["src", "src/types"]
 }

@@ -1,0 +1,8 @@
+[build]
+  command = "npm run build:standalone"
+  publish = "standalone-build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
