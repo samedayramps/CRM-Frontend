@@ -126,7 +126,7 @@ const RentalRequestForm: React.FC = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await fetch('https://your-api-endpoint.com/api/rental-requests', {
+        const response = await fetch('https://samedayramps-016e8e090b17.herokuapp.com/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
