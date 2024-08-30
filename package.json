@@ -17,6 +17,7 @@
     "axios": "^1.7.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "express-validator": "^7.2.0",
     "lucide-react": "^0.436.0",
     "postcss": "^8.4.41",
     "react": "^18.3.1",
