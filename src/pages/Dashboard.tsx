@@ -1,5 +1,7 @@
+// frontend/src/pages/Dashboard.tsx
+
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { fetchCustomers } from '../slices/customerSlice';
@@ -8,13 +10,30 @@ import { RootState } from '../store';
 
 const Dashboard: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { customers, loading: customersLoading } = useAppSelector((state: RootState) => state.customers);
-  const { jobs, loading: jobsLoading } = useAppSelector((state: RootState) => state.jobs);
+  const navigate = useNavigate();
+  const { customers, loading: customersLoading, error: customersError } = useAppSelector((state: RootState) => state.customers);
+  const { jobs, loading: jobsLoading, error: jobsError } = useAppSelector((state: RootState) => state.jobs);
 
   useEffect(() => {
-    dispatch(fetchCustomers());
-    dispatch(fetchJobs());
-  }, [dispatch]);
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchCustomers()).unwrap();
+        await dispatch(fetchJobs()).unwrap();
+      } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+          // Token might be expired or invalid
+          localStorage.removeItem('token');
+          navigate('/login');
+        }
+      }
+    };
+
+    fetchData();
+  }, [dispatch, navigate]);
+
+  if (customersError || jobsError) {
+    return <div>Error loading data. Please try again later.</div>;
+  }
   
   return (
     <Layout>

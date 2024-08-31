@@ -2,11 +2,11 @@ import axios from 'axios';
 import { Job } from '../types/job';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'https://samedayramps-016e8e090b17.herokuapp.com',
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // This is important for CORS with credentials
+  withCredentials: true,
 });
 
 api.interceptors.request.use((config) => {

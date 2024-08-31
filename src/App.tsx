@@ -20,9 +20,6 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 import PrivateRoute from './components/PrivateRoute';
-import RentalRequest from './pages/RentalRequest';
-import StandaloneRentalRequestForm from './components/StandaloneRentalRequestForm';
-
 
 const App: React.FC = () => {
   return (
@@ -50,11 +47,6 @@ const App: React.FC = () => {
 
           {/* Settings route */}
           <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
-
-          {/* Rental Request Form route */}
-          <Route path="/rental-request" element={<PrivateRoute><RentalRequest /></PrivateRoute>} />
-          <Route path="/standalone-form" element={<StandaloneRentalRequestForm />} />
-
 
           {/* 404 Not Found route */}
           <Route path="*" element={<NotFound />} />

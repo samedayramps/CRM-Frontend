@@ -7,11 +7,11 @@ export const fetchCustomers = createAsyncThunk(
     try {
       const response = await api.fetchCustomers();
       return response;
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem('token');
       }
-      return rejectWithValue('An unknown error occurred');
+      return rejectWithValue(error.response?.data || 'An error occurred');
     }
   }
 );

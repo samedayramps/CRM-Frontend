@@ -1,8 +1,14 @@
 [build]
-  command = "npm run build:standalone"
-  publish = "standalone-build"
+  command = "npm run build"
+  publish = "build"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://samedayramps-190d40dabf30.herokuapp.com/:splat"
+  status = 200
+  force = true

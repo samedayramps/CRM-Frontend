@@ -1,5 +1,3 @@
-// src/components/Layout.tsx
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -48,12 +46,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 >
                   Settings
                 </Link>
-                <Link
-                  to="/rental-request"
-                  className={`inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-700 ${isActive('/rental-request')}`}
+                <a
+                  href="http://localhost:3002"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-700"
                 >
                   Rental Request
-                </Link>
+                </a>
               </div>
             </div>
           </div>
