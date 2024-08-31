@@ -1,7 +1,7 @@
-// webpack.standalone.config.js
-
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: './src/StandaloneFormWrapper.tsx',
@@ -19,7 +19,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
       },
     ],
   },
@@ -31,5 +31,12 @@ module.exports = {
       template: 'public/standalone.html',
       filename: 'index.html',
     }),
+    new MiniCssExtractPlugin({
+      filename: 'styles.css',
+    }),
+    new webpack.DefinePlugin({
+        'process.env.REACT_APP_API_URL': JSON.stringify('https://samedayramps-016e8e090b17.herokuapp.com'),
+        // Add other environment variables here
+      }),
   ],
 };
